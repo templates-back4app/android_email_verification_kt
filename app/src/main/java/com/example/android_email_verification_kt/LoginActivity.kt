@@ -52,18 +52,16 @@ class LoginActivity : AppCompatActivity() {
 
     private fun login(username: String, password: String) {
         progressDialog?.show()
-        ParseUser.logInInBackground(username,password) { parseUser: ParseUser?, e: ParseException? ->
+        ParseUser.logInInBackground(
+            username,
+            password
+        ) { parseUser: ParseUser?, e: ParseException? ->
             progressDialog?.dismiss()
             if (parseUser != null) {
-                if (parseUser.getBoolean("emailVerified")) {
-                    showAlert("Login Successful", "Welcome, $username!", false)
-                } else {
-                    ParseUser.logOut()
-                    showAlert("Login Fail", "Please Verify Your Email first", true)
-                }
+                showAlert("Login Successful", "Welcome, $username!", false)
             } else {
                 ParseUser.logOut()
-                showAlert("Login Fail", e?.message + " Please re-try", true)
+                showAlert("Login Fail", e?.message + " Please try again", true)
             }
         }
     }
